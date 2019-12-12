@@ -12,19 +12,23 @@
   </head>
   <body>
 	<div class="container-fluid">
-		<div class="row mx-3 mt-5">
-			<div class="col">
-				<input type="number" id="jpy" onchange="cal();" onfocus="this.value='';" class="form-control text-right" />
-			</div>
-		</div>
-		<div class="row mx-3 my-3">
-			<div class="col text-right">
-			=
-			</div>
-		</div>
-		<div class="row mx-3 my-3">
-			<div class="col">
-				<div id="result" class="alert alert-info font-weight-bold text-right" role="alert"></div>
+		<div style="margin-top:180px;">
+			<div class="row mx-3 my-3">
+				<div class="col-12">
+					<div id="result" class="alert alert-info font-weight-bold text-center" role="alert"></div>
+				</div>
+				
+				<div class="col-12 text-right">
+				=
+				</div>
+				
+				<div class="col-12 my-3">
+					<input type="text" id="jpy" onkeyup="cal();" onchange="cal();" class="form-control form-control-lg text-center" />
+				</div>
+				
+				<div class="col-12 mt-3 text-center">	
+					<input type="button" value="Clear" onclick="document.getElementById('jpy').value = '';" class="btn btn-info" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -41,9 +45,20 @@
 			return x1 + x2;
 		}
 		function cal() {
-			var fromValue = document.querySelector("#jpy").value;
-			
-			document.querySelector("#result").innerHTML = addCommas((parseFloat(fromValue) * 0.2785).toFixed(2));
+			let fromValue = document.getElementById("jpy").value.split('+');
+			if (fromValue.length == 1){
+				document.querySelector("#result").innerHTML  = addCommas((fromValue[0] * 0.2785).toFixed(2));
+				return;
+			}
+			var result = [];
+			let total = fromValue.reduce((sum, number) => {
+				if(number == ""){
+					number = "0";
+				}
+				result.push(addCommas((parseFloat(number) * 0.2785).toFixed(2)));
+				return parseFloat(sum) + parseFloat(number);
+			}, 0);
+			document.querySelector("#result").innerHTML = result.join(" + ") + " = " + addCommas((total * 0.2785).toFixed(2));
 		}
 	
       if('serviceWorker' in navigator) {
