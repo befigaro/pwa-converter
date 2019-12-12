@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#E0F7FA"/>
+    <title>JPY Calculator</title>
+    <link rel="manifest" href="manifest.json">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="main.css" media="all">
+  </head>
+  <body>
+	<div class="container-fluid">
+		<div class="row mx-3 mt-5">
+			<div class="col">
+				<input type="number" id="jpy" onchange="cal();" onfocus="this.value='';" class="form-control text-right" />
+			</div>
+		</div>
+		<div class="row mx-3 my-3">
+			<div class="col text-right">
+			=
+			</div>
+		</div>
+		<div class="row mx-3 my-3">
+			<div class="col">
+				<div id="result" class="alert alert-info font-weight-bold text-right" role="alert"></div>
+			</div>
+		</div>
+	</div>
+    <script>
+		function addCommas(nStr){
+			nStr += '';
+			x = nStr.split('.');
+			x1 = x[0];
+			x2 = x.length > 1 ? '.' + x[1] : '';
+			var rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + ',' + '$2');
+			}
+			return x1 + x2;
+		}
+		function cal() {
+			var fromValue = document.querySelector("#jpy").value;
+			
+			document.querySelector("#result").innerHTML = addCommas((parseFloat(fromValue) * 0.2785).toFixed(2));
+		}
+	
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/pwa/sw.js')
+          .then(function() {
+                console.log('Service Worker Registered');
+          });
+      }
+    </script>
+  </body>
+</html>
